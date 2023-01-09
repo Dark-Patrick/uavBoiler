@@ -309,8 +309,8 @@ export default {
       user: {'username': 'lch', 'age': 18},
       chatUser: 'lizi',
       text: "测试测试测试测试",
-      url:"webrtc://192.168.0.110/live/livestream/1", //直播视频流地址
-      url_left:"webrtc://192.168.0.110/live/livestream/videoName",
+      url:"webrtc://101.42.0.24/live/address", //直播视频流地址
+      url_left:"rtmp://101.42.0.24/live/videoName",
       messages: [
         {
           "category": "描述1",

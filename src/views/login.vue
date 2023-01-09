@@ -2,9 +2,10 @@
   <div class="login-container">
     <div class="right">
       <div class="title">
-        <img src="../assets/img/logo.png" alt="" />
+<!--        <img src="../assets/img/logo.png" alt="" />-->
       </div>
       <div class="login-box">
+        <h1 style="color: #FFFFFF">员工流动信息监控系统</h1>
         <el-form v-model="form" class="input-form">
           <el-form-item class="el-form-item">
             <div class="formText">
@@ -29,10 +30,10 @@
             </div>
           </el-form-item>
           <el-form-item>
-            <div class="submit">
+            <div class="submit" @click="login">
               <img src="../assets/img/btn_login.png" alt="" />
             </div>
-            <!-- <el-button type="primary" @click="login">登录</el-button> -->
+<!--             <el-button type="primary" @click="login">登录</el-button>-->
           </el-form-item>
         </el-form>
       </div>
@@ -53,7 +54,11 @@ export default {
   created() {},
   methods: {
     //登录接口
+    login(){
+      this.$router.push({ path: "/home" });
+    }
   },
+
 };
 </script>
 <style lang="scss" scoped>
