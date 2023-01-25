@@ -111,7 +111,7 @@
           <el-form-item label="视频：" :label-width="formLabelWidth">
             <el-upload
               class="upload-demo"
-              action="http://172.19.209.96:8081/file/save"
+              action="http://192.168.31.240:8081/file/save"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :on-success="uploadFileSuccess"
@@ -267,7 +267,7 @@ export default {
       let _this = this;
       axios({
         method: 'post',
-        url: 'http://172.19.222.67:8081/file/upload',
+        url: 'http://192.168.31.240:8081/file/upload',
         data: {
           boilerName: this.form.boilerName,
           detectionTime: this.form.detectionTime,//检查时间对应再数据库中表示的是设备位置，前端的锅
@@ -289,7 +289,7 @@ export default {
       let _this = this;
       axios({
         method: 'get',
-        url: 'http://172.19.222.67:8081/file/list',
+        url: 'http://192.168.31.240:8081/file/list',
       }).then((response)=>{
         console.log(response);
         if(response.data.success){
@@ -299,7 +299,7 @@ export default {
     },
     //查看数据
     edit: function(data){
-      let root = 'http://172.19.222.67:8081/upload/';
+      let root = 'http://192.168.31.240:8081/upload/';
       this.videoSrc = root + data.videoId;
       this.seeVideoDialog = true;
     },

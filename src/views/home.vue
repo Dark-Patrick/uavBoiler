@@ -352,7 +352,7 @@ export default {
         console.log("您的浏览器不支持WebSocket");
       } else {
         console.log("您的浏览器支持WebSocket");
-        let socketUrl = "ws://192.168.43.21:8081/server/" + username;
+        let socketUrl = "ws://192.168.31.240:8081/server/" + username;
         if (socket != null) {
           socket.close();
           socket = null;

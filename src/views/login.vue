@@ -13,7 +13,7 @@
               <input
                 class="inputText"
                 style="background-color: transparent; color: #fff"
-                v-model="form.username"
+                v-model="form.userName"
               />
             </div>
           </el-form-item>
@@ -41,12 +41,14 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   components: {},
   data() {
     return {
       form: {
-        username: "",
+        userName: "",
         password: "",
       },
     };
@@ -55,7 +57,23 @@ export default {
   methods: {
     //登录接口
     login(){
-      this.$router.push({ path: "/home" });
+      let _this = this;
+      axios({
+        method: 'post',
+        url: 'http://192.168.31.240:8081/login',
+        data: {
+          userName: this.form.userName,
+          password: this.form.password,
+        }
+      }).then(function (response){
+        if(response.data.success === "true"){
+          localStorage.setItem("access-admin", JSON.stringify(response.data))
+          console.log(response);
+          _this.$router.push({ path: "/home" });
+          return;
+        }
+         alert(response.data.userName);
+      })
     }
   },
 
