@@ -306,7 +306,7 @@ export default {
   },
   data () {
     return {
-      user: {'username': 'lch', 'age': 18},
+      user: "",
       chatUser: 'lizi',
       text: "测试测试测试测试",
       url:"webrtc://101.42.0.24/live/address", //直播视频流地址
@@ -328,7 +328,8 @@ export default {
     }
   },
   created() {
-    this.init()
+    this.user = JSON.parse(window.localStorage.getItem("access-admin"));
+    this.init();
   },
   mounted() {
     var video = document.getElementById('video');
@@ -342,17 +343,16 @@ export default {
       this.send();
     },
     init() {
-      this.user = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {}
+      // this.user = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {}
       //let username = this.user.username;
-      let flag = new Date().getSeconds();
-      let username = "LCH" + flag;
       let _this = this;
 
       if (typeof (WebSocket) == "undefined") {
         console.log("您的浏览器不支持WebSocket");
       } else {
         console.log("您的浏览器支持WebSocket");
-        let socketUrl = "ws://192.168.31.240:8081/server/" + username;
+
+        let socketUrl = "ws://192.168.31.240:8081/server/" + this.user.userName;
         if (socket != null) {
           socket.close();
           socket = null;

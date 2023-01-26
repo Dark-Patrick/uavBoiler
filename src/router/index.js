@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import axios from "axios";
 // import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
@@ -55,10 +56,48 @@ const routes = [
       require(['./../views/taskManagemen.vue'], resolve)
     },
   },
+  //登录信息失效
+  {
+    path: "/error",
+    name: "error",
+    component:(resolve)=>{
+      require(['./../views/error.vue'], resolve)
+    },
+  },
 ];
 const router = new Router({
   // mode: 'history',
   base: '/',
   routes,
 });
+
+router.beforeEach((to, from, next)=>{
+  if(to.path.startsWith("/login")){
+    window.localStorage.removeItem("access-admin");
+    next();
+  }
+  else {
+    let admin = JSON.parse(window.localStorage.getItem("access-admin"));
+    if(!admin){
+      next({path: "/login"});
+    }
+    else {
+      //校验token合法性
+      axios({
+        url:"http://192.168.31.240:8081/checkToken",
+        method:"get",
+        headers:{
+          token:admin.token
+        }
+      }).then((response)=>{
+        if(!response.data){
+          console.log("校验失败");
+          next({path:"/error"});
+        }
+      })
+      next();
+    }
+  }
+})
+
 export default router;

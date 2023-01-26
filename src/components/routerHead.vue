@@ -61,8 +61,8 @@
           <img src="../assets/img/tq_top_sunny.png" alt="" />
         </div>
         <div class="temp">
-          <p>PM 2.5</p>
-          <p>27 ℃</p>
+          <p>欢 迎</p>
+          <p>{{ user.userName }}</p>
         </div>
       </div>
     </div>
@@ -76,12 +76,15 @@ export default {
   props: ["active"],
   data() {
     return {
+      user: "",
       dateTime: "",
       dateNowTime: "",
       timeNow: null,
     };
   },
   created() {
+    this.user = JSON.parse(window.localStorage.getItem("access-admin"))
+
     //获取实时时间
     this.timeNow = setInterval(() => {
       setTimeout(() => {
