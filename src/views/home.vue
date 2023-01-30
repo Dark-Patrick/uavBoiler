@@ -186,7 +186,7 @@
               </div>
           </div>
           <AiRecord v-for="(item, index) in messages" :describe="item.des" :time="item.id" :key="index"
-                    @handle="handleIt(item.id)"></AiRecord>
+                    @handle="handleIt"></AiRecord>
         </div>
     </div>
     <div class="cnenterTroduce">
@@ -197,90 +197,6 @@
       <div class="cnenterOperation">
         <video id="video_left" class="video" controls autoplay style="width: 50%; height: 100%; float: left" ></video>
         <video id="video_right" class="video" controls autoplay style="width: 50%; height: 100%; float: right" ></video>
-<!--        <div class="navTitle">-->
-<!--          飞行数据-->
-<!--        </div>-->
-<!--        <div class="uavShow">-->
-<!--          <div class="uavShow-detail">-->
-<!--            <div class="detail">-->
-<!--              <p>飞手</p>-->
-<!--              <p>张三</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="uavShow-detail">-->
-<!--           <div class="detail">-->
-<!--              <p>时间</p>-->
-<!--              <p>2020.07.24 12:30</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="uavShow-detail">-->
-<!--           <div class="detail">-->
-<!--              <p>设备编号</p>-->
-<!--              <p>RT008</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="uavShow-detail">-->
-<!--           <div class="detail">-->
-<!--              <p>设备型号</p>-->
-<!--              <p>大疆无人机CT-0678</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="uavShow-detail">-->
-<!--           <div class="detail">-->
-<!--              <p>轨迹</p>-->
-<!--              <p>偏向5°</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="uavShow-detail">-->
-<!--           <div class="detail">-->
-<!--              <p>经纬度</p>-->
-<!--              <p>113.51667，25.09847</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="uavHeight">-->
-<!--          <div class="uavDriction">-->
-<!--             <h2>180°</h2>-->
-<!--            <p>航向</p>-->
-<!--          </div>-->
-<!--          <div class="uavDrict">-->
-<!--             <h2>50<span>km/h</span></h2>-->
-<!--              <p>速度</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="cnenterOperationShow">-->
-<!--            <div class="arrowShow">-->
-<!--              <img src="../assets/img/btn_reduce.png" alt="" />-->
-<!--              <p>变倍</p>-->
-<!--              <img src="../assets/img/btn_add.png" alt="" />-->
-<!--            </div>-->
-<!--            <div class="arrowShowHiden">-->
-<!--              <div class="arrowSpace">-->
-<!--                <img src="../assets/img/upleft.png" alt="" />-->
-<!--                <img src="../assets/img/upright.png" alt="" />-->
-<!--                <img src="../assets/img/downleft.png" alt="" />-->
-<!--                <img src="../assets/img/downright.png" alt="" />-->
-<!--                <img src="../assets/img/left.png" alt="" />-->
-<!--                <img src="../assets/img/up.png" alt="" />-->
-<!--                <img src="../assets/img/right.png" alt="" />-->
-<!--                <img src="../assets/img/down.png" alt="" />-->
-<!--                <img src="../assets/img/update.png" alt="" />-->
-<!--              </div>-->
-<!--              <div class="turnUp">-->
-<!--                <div class="turn">-->
-<!--                  开灯-->
-<!--                </div>-->
-<!--                <div class="turndown">-->
-<!--                  关灯-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="arrowShow">-->
-<!--              <img src="../assets/img/btn_height_add.png" alt="" />-->
-<!--              <p>高度</p>-->
-<!--              <img src="../assets/img/btn_height_reduce.png" alt="" />-->
-<!--            </div>-->
-<!--        </div>-->
       </div>
     </div>
   </div>

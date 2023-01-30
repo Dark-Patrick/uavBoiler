@@ -2,7 +2,7 @@
   "name": "my-project",
   "version": "1.0.0",
   "description": "Boiler project",
-  "author": "huzhengwei <2565387903@qq.com>",
+  "author": "lichenghao <lichenghao20001021@163.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -58,6 +58,9 @@
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
+  },
+  "externals": {
+    "BMap": "BMap"
   },
   "browserslist": [
     "> 1%",

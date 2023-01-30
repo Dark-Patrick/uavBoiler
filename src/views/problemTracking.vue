@@ -3,7 +3,7 @@
    <routerHead :active="2"></routerHead>
     <div class="headSearch">
        <div class="input">
-        <span>锅炉名称：</span>
+        <span>员工ID：</span>
         <el-input
           type="text"
           placeholder="请输入"
@@ -12,7 +12,7 @@
         />
        </div>
         <div class="input">
-          <span> 检测时间：</span>
+          <span> 活动时间：</span>
           <el-time-select
             v-model="search.dataTime"
             :picker-options="{
@@ -23,66 +23,14 @@
             placeholder="选择时间">
           </el-time-select>
        </div>
-        <div class="searchBtn">
+        <div class="searchBtn" @click="change()">
           查询
         </div>
         <div class="addVideo">
           新增视频
         </div>
      </div>
-      <div class="tableList">
-        <el-table
-        :data="tableData"
-         style="width: 100%;
-         text-align:center;"
-        :row-class-name="tableRowClassName"
-         :header-cell-style="{
-           background: 'linear-gradient(90deg, rgba(0,163,254,0.4), rgba(0,212,255,0.4), rgba(0,163,254,0.4))'
-           }"
-         >
-          <el-table-column prop="name" label="设备名称"></el-table-column>
-          <el-table-column prop="sn" label="设备编码"></el-table-column>
-          <el-table-column prop="location" label="设备位置"></el-table-column>
-          <el-table-column prop="orgName" label="所属单位"></el-table-column>
-          <el-table-column prop="deviceType" label="设备类型">
-            <!-- <template slot-scope="scope">
-              <span v-if="scope.row.deviceType == 1">网关</span>
-              <span v-if="scope.row.deviceType == 2">NVR</span>
-              <span v-if="scope.row.deviceType == 3">摄像头</span>
-            </template> -->
-          </el-table-column>
-          <el-table-column label="设备状态">
-            <!-- <template slot-scope="scope">
-              <span>{{ scope.row.status }}</span>
-            </template> -->
-          </el-table-column>
-          <el-table-column label="工作时间">
-            <!-- <template slot-scope="scope">
-              <span>{{ scope.row.startWork }} - {{ scope.row.endWork }}</span>
-            </template> -->
-          </el-table-column>
-          <el-table-column label="操作" width="180">
-            <template slot-scope="scope">
-              <span class="span" @click="edit(scope.row)">查看</span>
-              <span class="span" @click="deleteData(scope.row)">删除</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <div class="pages">
-        <div style="display: flex; align-items: center">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
-            :current-page="current"
-            :page-size="pageSize"
-            background
-            layout="prev, pager, next,sizes, jumper"
-            :pager-count="5"
-            :total="total"
-          ></el-pagination>
-        </div>
-      </div>
+      <div class="baiduMap" id="container"></div>
   </div>
 </template>
 
@@ -93,66 +41,59 @@ export default {
   components:{
     routerHead
   },
-  data () {
-    return {
-      total:0,
-      pageSize:10,
-      current:1,
-      tableData:[{
-        name:'大三大四大',
-        sn:'1大三大四大',
-        location:'GV的双方各水电费水电费2',
-        orgName:'dasdasdasd',
-        deviceType:'分vdsf',
-      },{
-        name:'大三大四大',
-        sn:'1大三大四大',
-        location:'GV的双方各水电费水电费2',
-        orgName:'dasdasdasd',
-        deviceType:'分vdsf',
-      }],
+  data() {
+    return{
       search:{
         name:'',
         dataTime:''
-      }
-    }
-   },
-  created() {
-    //获取列表数据
-    // this.getList();
+      },
+      pos:{
+        x:'',
+        y:'',
+      },
+
+      map:'',
+    };
+  },
+  mounted() {
+    this.init();
   },
   methods: {
-    //表格斑马纹的样式
-    tableRowClassName({row, rowIndex}) {
-      if (rowIndex%2==0) {
-      return '';
-      } else {
-      return 'statistics-warning-row';
-      }
+    init(){
+      this.map = new window.BMap.Map("container");
+      let point = new window.BMap.Point(116.404, 39.915);
+      this.map.centerAndZoom(point, 15);
+      this.map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+      this.map.addEventListener('click', function(e) {
+        alert('click!')
+      });
     },
-     //翻页
-    handleCurrentChange(index) {
-      this.current = index;
-      // this.getList();
-    },
-    handleSizeChange(index) {
-    this.pageSize = index;
-    },
-    getList() {
 
-    },
-    //编辑数据
-    edit(){
+    change(){
+      this.map.clearOverlays();
+      let polyline = new BMap.Polyline([
+        new BMap.Point(116.399, 39.910),
+        new BMap.Point(116.405, 39.920),
+        new BMap.Point(116.425, 39.900)
+      ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});
+      this.map.addOverlay(polyline);
 
+      var point = new BMap.Point(116.399, 39.910);
+      var marker = new BMap.Marker(point);        // 创建标注
+      this.map.addOverlay(marker);
     },
-    //删除数据
-    deleteData(){
-
-    }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
+
+.baiduMap{
+  height: 80%;
+  width: 95%;
+  border: #001F44 1px solid;
+  margin: 0 auto;
+}
+
 .login-container {
   background-image: url(../assets/img/back.jpeg);
   background-color: #f1f3f6;

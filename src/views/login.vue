@@ -58,22 +58,23 @@ export default {
     //登录接口
     login(){
       let _this = this;
-      axios({
-        method: 'post',
-        url: 'http://192.168.31.240:8081/login',
-        data: {
-          userName: this.form.userName,
-          password: this.form.password,
-        }
-      }).then(function (response){
-        if(response.data.success === "true"){
-          localStorage.setItem("access-admin", JSON.stringify(response.data))
-          console.log(response);
-          _this.$router.push({ path: "/home" });
-          return;
-        }
-         alert(response.data.userName);
-      })
+      // axios({
+      //   method: 'post',
+      //   url: 'http://192.168.31.240:8081/login',
+      //   data: {
+      //     userName: this.form.userName,
+      //     password: this.form.password,
+      //   }
+      // }).then(function (response){
+      //   if(response.data.success === "true"){
+      //     localStorage.setItem("access-admin", JSON.stringify(response.data))
+      //     console.log(response);
+      //     _this.$router.push({ path: "/home" });
+      //     return;
+      //   }
+      //    alert(response.data.userName);
+      // })
+      _this.$router.push({ path: "/home" });
     }
   },
 

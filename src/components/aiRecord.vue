@@ -2,7 +2,7 @@
   <div class="tablesContent">
     <div>{{time}}</div>
     <div class="trackingContent">{{describe}}</div>
-    <div class="btn_cl" @click="handle()">
+    <div class="btn_cl" @click="handle(time)">
       处理
     </div>
   </div>

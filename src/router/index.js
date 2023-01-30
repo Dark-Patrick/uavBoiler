@@ -71,33 +71,33 @@ const router = new Router({
   routes,
 });
 
-router.beforeEach((to, from, next)=>{
-  if(to.path.startsWith("/login")){
-    window.localStorage.removeItem("access-admin");
-    next();
-  }
-  else {
-    let admin = JSON.parse(window.localStorage.getItem("access-admin"));
-    if(!admin){
-      next({path: "/login"});
-    }
-    else {
-      //校验token合法性
-      axios({
-        url:"http://192.168.31.240:8081/checkToken",
-        method:"get",
-        headers:{
-          token:admin.token
-        }
-      }).then((response)=>{
-        if(!response.data){
-          console.log("校验失败");
-          next({path:"/error"});
-        }
-      })
-      next();
-    }
-  }
-})
+// router.beforeEach((to, from, next)=>{
+//   if(to.path.startsWith("/login")){
+//     window.localStorage.removeItem("access-admin");
+//     next();
+//   }
+//   else {
+//     let admin = JSON.parse(window.localStorage.getItem("access-admin"));
+//     if(!admin){
+//       next({path: "/login"});
+//     }
+//     else {
+//       //校验token合法性
+//       axios({
+//         url:"http://192.168.31.240:8081/checkToken",
+//         method:"get",
+//         headers:{
+//           token:admin.token
+//         }
+//       }).then((response)=>{
+//         if(!response.data){
+//           console.log("校验失败");
+//           next({path:"/error"});
+//         }
+//       })
+//       next();
+//     }
+//   }
+// })
 
 export default router;

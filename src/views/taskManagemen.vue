@@ -33,7 +33,7 @@
       <div class="tableList">
         <el-table
         :data="tableData"
-         style="width: 100%；
+         style="width: 100%;
          text-align:center;"
         :row-class-name="tableRowClassName"
          :header-cell-style="{
