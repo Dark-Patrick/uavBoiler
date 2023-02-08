@@ -47,11 +47,12 @@ export default {
         name:'',
         dataTime:''
       },
-      pos:{
-        x:'',
-        y:'',
-      },
-
+      pos:[
+        {
+          x:'',
+          y:'',
+        },
+      ],
       map:'',
     };
   },
@@ -60,26 +61,28 @@ export default {
   },
   methods: {
     init(){
-      this.map = new window.BMap.Map("container");
-      let point = new window.BMap.Point(116.404, 39.915);
+      this.map = new window.BMapGL.Map("container");
+      let point = new window.BMapGL.Point(115.519514, 38.893462);
       this.map.centerAndZoom(point, 15);
       this.map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-      this.map.addEventListener('click', function(e) {
-        alert('click!')
-      });
+      // this.map.setHeading(64.5);   //设置地图旋转角度
+      // this.map.setTilt(73);       //设置地图的倾斜角度
+      // this.map.addEventListener('click', function(e) {
+      //   alert('click!')
+      // });
     },
 
     change(){
       this.map.clearOverlays();
-      let polyline = new BMap.Polyline([
-        new BMap.Point(116.399, 39.910),
-        new BMap.Point(116.405, 39.920),
-        new BMap.Point(116.425, 39.900)
+      let polyline = new BMapGL.Polyline([
+        new BMapGL.Point(116.399, 39.910),
+        new BMapGL.Point(116.405, 39.920),
+        new BMapGL.Point(116.425, 39.900)
       ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});
       this.map.addOverlay(polyline);
 
-      var point = new BMap.Point(116.399, 39.910);
-      var marker = new BMap.Marker(point);        // 创建标注
+      var point = new BMapGL.Point(115.519514, 38.893462);
+      var marker = new BMapGL.Marker(point);        // 创建标注
       this.map.addOverlay(marker);
     },
   }

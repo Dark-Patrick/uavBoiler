@@ -60,7 +60,7 @@
     "npm": ">= 3.0.0"
   },
   "externals": {
-    "BMap": "BMap"
+    "BMapGL": "BMapGL"
   },
   "browserslist": [
     "> 1%",

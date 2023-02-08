@@ -61,8 +61,8 @@
           <img src="../assets/img/tq_top_sunny.png" alt="" />
         </div>
         <div class="temp">
-<!--          <p>欢 迎</p>-->
-<!--          <p>{{ user.userName }}</p>-->
+          <p>欢 迎</p>
+          <p>{{ user.userName }}</p>
         </div>
       </div>
     </div>
