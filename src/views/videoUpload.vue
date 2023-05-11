@@ -3,7 +3,7 @@
      <routerHead :active="1"></routerHead>
      <div class="headSearch">
        <div class="input">
-        <span>锅炉名称：</span>
+        <span>视频名称：</span>
         <el-input
           type="text"
           placeholder="请输入"
@@ -45,23 +45,9 @@
           <el-table-column prop="id" label="设备编码"></el-table-column>
           <el-table-column prop="detectionDuration" label="工作时间"></el-table-column>
           <el-table-column prop="detectionTime" label="设备位置"></el-table-column>
-          <el-table-column  label="设备类型">
-            <!-- <template slot-scope="scope">
-              <span v-if="scope.row.deviceType == 1">网关</span>
-              <span v-if="scope.row.deviceType == 2">NVR</span>
-              <span v-if="scope.row.deviceType == 3">摄像头</span>
-            </template> -->
-          </el-table-column>
-          <el-table-column label="设备状态">
-            <!-- <template slot-scope="scope">
-              <span>{{ scope.row.status }}</span>
-            </template> -->
-          </el-table-column>
-          <el-table-column label="所属单位">
-            <!-- <template slot-scope="scope">
-              <span>{{ scope.row.startWork }} - {{ scope.row.endWork }}</span>
-            </template> -->
-          </el-table-column>
+          <el-table-column  label="设备类型"></el-table-column>
+          <el-table-column label="设备状态"></el-table-column>
+          <el-table-column label="所属单位"></el-table-column>
           <el-table-column label="操作" width="180">
             <template slot-scope="scope">
               <span class="span" @click="edit(scope.row)">查看</span>
@@ -96,7 +82,7 @@
         @submitDialog="submitDialog"
         >
         <el-form :model="form">
-          <el-form-item label="锅炉名称：" :label-width="formLabelWidth">
+          <el-form-item label="视频名称：" :label-width="formLabelWidth">
             <el-input v-model="form.boilerName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="设备位置：" :label-width="formLabelWidth">
@@ -111,7 +97,7 @@
           <el-form-item label="视频：" :label-width="formLabelWidth">
             <el-upload
               class="upload-demo"
-              action="http://192.168.31.240:8081/file/save"
+              action="http://192.168.0.175:8081/file/save"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :on-success="uploadFileSuccess"
@@ -137,7 +123,7 @@
         >
           <video ref="videoOnChange" id="videoOnChange" controls = "controls"  :src="videoSrc" style="height: 400px; width: 100%; align-content: center; align-items: center"></video>
         <el-form :model="form">
-          <el-form-item label="锅炉名称：" :label-width="formLabelWidth">
+          <el-form-item label="视频名称：" :label-width="formLabelWidth">
             <el-input v-model="form.boilerName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="检测时间：" :label-width="formLabelWidth">
@@ -179,7 +165,7 @@ export default {
       boilerName:'112',
       detectionTime:'3:40',
       detectionDuration:'shanghai',
-      videoId:'e3f4146f-6619-418b-959e-d9101b7f952e.mp4'
+      videoId:'test.mp4'
       },
       {
         id: '2',
@@ -267,7 +253,7 @@ export default {
       let _this = this;
       axios({
         method: 'post',
-        url: 'http://192.168.31.240:8081/file/upload',
+        url: 'file/upload',
         data: {
           boilerName: this.form.boilerName,
           detectionTime: this.form.detectionTime,//检查时间对应再数据库中表示的是设备位置，前端的锅
@@ -289,7 +275,7 @@ export default {
       let _this = this;
       axios({
         method: 'get',
-        url: 'http://192.168.31.240:8081/file/list',
+        url: 'file/list',
       }).then((response)=>{
         console.log(response);
         if(response.data.success){
@@ -299,7 +285,7 @@ export default {
     },
     //查看数据
     edit: function(data){
-      let root = 'http://192.168.31.240:8081/upload/';
+      let root = 'http://192.168.0.175:8081/upload/';
       this.videoSrc = root + data.videoId;
       this.seeVideoDialog = true;
     },

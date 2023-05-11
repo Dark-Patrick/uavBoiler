@@ -27,7 +27,7 @@
         </li>
         <li @click="changeRouter(2)">
           <div class="routerLink">
-            <h3>问题跟踪</h3>
+            <h3>轨迹跟踪</h3>
             <p>Issue tracking</p>
           </div>
           <img src="../assets/img/router-Arrow.png" alt="" />
@@ -35,7 +35,7 @@
         </li>
         <li @click="changeRouter(3)">
           <div class="routerLink">
-            <h3>信息管理</h3>
+            <h3>设备管理</h3>
             <p>Boiler management</p>
           </div>
           <img src="../assets/img/router-Arrow.png" alt="" />
@@ -43,7 +43,7 @@
         </li>
         <li @click="changeRouter(4)">
           <div class="routerLink">
-            <h3>任务管理</h3>
+            <h3>性能监控</h3>
             <p>Task management</p>
           </div>
           <img src="../assets/img/router-Arrow.png" alt="" />
@@ -63,6 +63,7 @@
         <div class="temp">
           <p>欢 迎</p>
           <p>{{ user.userName }}</p>
+<!--          <p>{{ tem }} | {{type}}</p>-->
         </div>
       </div>
     </div>
@@ -80,6 +81,8 @@ export default {
       dateTime: "",
       dateNowTime: "",
       timeNow: null,
+      tem:"",
+      type:""
     };
   },
   created() {
@@ -129,12 +132,12 @@ export default {
     getTem() {
       axios
         .get(
-          "/juhe/simpleWeather/query?city=%E5%8D%97%E4%BA%AC&key=0f1b43c402f5831916c58dfe5bf909dd",
+          "http://apis.juhe.cn/juhe/simpleWeather/query?city=%E5%8D%97%E4%BA%AC&key=0f1b43c402f5831916c58dfe5bf909dd",
           {}
         )
         .then((response) => {
-          // this.tem = response.data.data.forecast[0].high;
-          // this.type = response.data.data.forecast[0].type;
+          this.tem = response.data.data.forecast[0].high;
+          this.type = response.data.data.forecast[0].type;
         })
         .catch(function (err) {});
     },

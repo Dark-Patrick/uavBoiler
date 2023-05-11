@@ -3,7 +3,7 @@
      <routerHead :active="3"></routerHead>
       <div class="headSearch">
        <div class="input">
-        <span>锅炉名称：</span>
+        <span>设备名称：</span>
         <el-input
           type="text"
           placeholder="请输入"
@@ -12,22 +12,19 @@
         />
        </div>
         <div class="input">
-          <span> 检测时间：</span>
-          <el-time-select
+          <span> 上线时间：</span>
+          <el-date-picker
             v-model="search.dataTime"
-            :picker-options="{
-              start: '08:30',
-              step: '00:15',
-              end: '18:30'
-            }"
-            placeholder="选择时间">
-          </el-time-select>
+            type="date"
+            placeholder="选择查询日期"
+            value-format="yyyy-MM-dd">
+          </el-date-picker>
        </div>
         <div class="searchBtn">
           查询
         </div>
-        <div class="addVideo">
-          新增视频
+        <div class="addVideo" @click="addCamera">
+          新增设备
         </div>
      </div>
       <div class="tableList">
@@ -40,30 +37,16 @@
            background: 'linear-gradient(90deg, rgba(0,163,254,0.4), rgba(0,212,255,0.4), rgba(0,163,254,0.4))'
            }"
          >
-          <el-table-column prop="name" label="设备名称"></el-table-column>
-          <el-table-column prop="sn" label="设备编码"></el-table-column>
-          <el-table-column prop="location" label="设备位置"></el-table-column>
-          <el-table-column prop="orgName" label="所属单位"></el-table-column>
-          <el-table-column prop="deviceType" label="设备类型">
-            <!-- <template slot-scope="scope">
-              <span v-if="scope.row.deviceType == 1">网关</span>
-              <span v-if="scope.row.deviceType == 2">NVR</span>
-              <span v-if="scope.row.deviceType == 3">摄像头</span>
-            </template> -->
-          </el-table-column>
-          <el-table-column label="设备状态">
-            <!-- <template slot-scope="scope">
-              <span>{{ scope.row.status }}</span>
-            </template> -->
-          </el-table-column>
-          <el-table-column label="工作时间">
-            <!-- <template slot-scope="scope">
-              <span>{{ scope.row.startWork }} - {{ scope.row.endWork }}</span>
-            </template> -->
-          </el-table-column>
+          <el-table-column prop="cname" label="设备名称"></el-table-column>
+          <el-table-column prop="cid" label="设备编码"></el-table-column>
+          <el-table-column prop="level" label="设备等级"></el-table-column>
+          <el-table-column prop="ip" label="IP地址"></el-table-column>
+          <el-table-column prop="locx" label="经度"></el-table-column>
+          <el-table-column prop="locy" label="纬度"></el-table-column>
+          <el-table-column prop="time" label="上线时间"></el-table-column>
           <el-table-column label="操作" width="180">
             <template slot-scope="scope">
-              <span class="span" @click="edit(scope.row)">查看</span>
+<!--              <span class="span" @click="edit(scope.row)">查看</span>-->
               <span class="span" @click="deleteData(scope.row)">删除</span>
             </template>
           </el-table-column>
@@ -84,43 +67,101 @@
           ></el-pagination>
         </div>
       </div>
+
+    <dialogForm
+      :open.sync="addCameraDialog"
+      class-name="model"
+      :is-footer="true"
+      @closeDialog="closeDialog"
+      title="新增设备"
+      :form="form"
+      @submitDialog="submitDialog"
+    >
+      <el-form :model="form">
+        <el-form-item label="设备名称：" :label-width="formLabelWidth">
+          <el-input v-model="form.cname" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="IP地址：" :label-width="formLabelWidth">
+          <el-input v-model="form.ip" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="经度：" :label-width="formLabelWidth">
+          <el-input v-model="form.locx" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="纬度：" :label-width="formLabelWidth">
+          <el-input v-model="form.locy" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="设备等级：" :label-width="formLabelWidth">
+          <el-select v-model="form.level" placeholder="请选择等级">
+            <el-option label="一级" value=1></el-option>
+            <el-option label="二级" value=2></el-option>
+            <el-option label="三级" value=3></el-option>
+            <el-option label="四级" value=4></el-option>
+            <el-option label="五级" value=5></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="上线时间：" :label-width="formLabelWidth">
+            <el-date-picker
+              v-model="form.time"
+              type="date"
+              placeholder="选择日期"
+              value-format="yyyy-MM-dd">
+            </el-date-picker>
+        </el-form-item>
+      </el-form>
+    </dialogForm>
   </div>
 </template>
 
 <script>
 import routerHead from '@/components/routerHead.vue'
+import dialogForm from '@/components/dialogForm.vue'
+import axios from "axios";
 export default {
   name: 'boilerManagemen',
   components:{
-    routerHead
+    routerHead,
+    dialogForm
   },
   data () {
     return {
-      total:0,
+      addCameraDialog:false,
+      total:50,
       pageSize:10,
       current:1,
       tableData:[{
-        name:'大三大四大',
-        sn:'1大三大四大',
-        location:'GV的双方各水电费水电费2',
-        orgName:'dasdasdasd',
-        deviceType:'分vdsf',
+        cid:'1',
+        ip:'192.168.12.101',
+        level:'2',
+        locx:'115.519514',
+        locy:'38.893462',
+        time:'2023-4-11',
+        cname:'一区11号楼'
       },{
-        name:'大三大四大',
-        sn:'1大三大四大',
-        location:'GV的双方各水电费水电费2',
-        orgName:'dasdasdasd',
-        deviceType:'分vdsf',
+        cid:'1',
+        ip:'192.168.12.101',
+        level:'2',
+        locx:'115.519514',
+        locy:'38.893462',
+        time:'2023-4-11',
+        cname:'一区11号楼'
       }],
       search:{
         name:'',
         dataTime:''
-      }
+      },
+      form:{
+        ip:'',
+        level:'',
+        locx:'',
+        locy:'',
+        time:'',
+        cname:''
+      },
+      formLabelWidth:'120px',
     }
    },
   created() {
-    //获取列表数据
-    // this.getList();
+    this.getList(1, 10);
   },
    methods: {
     //表格斑马纹的样式
@@ -134,22 +175,71 @@ export default {
      //翻页
     handleCurrentChange(index) {
       this.current = index;
-      // this.getList();
+      this.getList(index, this.pageSize);
     },
     handleSizeChange(index) {
     this.pageSize = index;
     },
-    getList() {
-
+    getList(index, size) {
+      axios({
+        method: 'get',
+        url: 'camera/list',
+        params:{
+          index: index,
+          size: size
+        }
+      }).then((response)=>{
+        if(response.data.success){
+          this.tableData = response.data.msg;
+        }
+      })
     },
-    //编辑数据
-    edit(){
-
+    deleteData(data){
+      let _this = this;
+      axios({
+        method: 'post',
+        url: 'camera/delete',
+        data: {
+          cid: data.cid
+        }
+      }).then(function (data){
+        if(data){
+          alert("设备已移除！");
+          _this.current = 1;
+          _this.getList(1, 10);
+          return ;
+        }
+        alert("删除失败，请稍后再试");
+      })
     },
-    //删除数据
-    deleteData(){
+     addCamera(){
+       this.addCameraDialog = true;
+     },
 
-    }
+     closeDialog(value){
+       this.addCameraDialog = value;
+     },
+     submitDialog(){
+       axios({
+         method: 'post',
+         url: 'camera/insert',
+         data: {
+           cname: this.form.cname,
+           ip: this.form.ip,
+           locx: this.form.locx,
+           locy: this.form.locy,
+           time: this.form.time,
+           level: this.form.level
+         }
+       }).then(function (data){
+         if(data){
+           alert("上传成功！");
+           return ;
+         }
+         alert("上传失败，请稍后再试");
+       })
+       this.addVideoDialog = false;
+     }
   },
 }
 </script>

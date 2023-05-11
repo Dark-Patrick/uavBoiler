@@ -13,21 +13,27 @@
        </div>
         <div class="input">
           <span> 活动时间：</span>
-          <el-time-select
+<!--          <el-time-select-->
+<!--            v-model="search.dataTime"-->
+<!--            :picker-options="{-->
+<!--              start: '08:30',-->
+<!--              step: '00:15',-->
+<!--              end: '18:30'-->
+<!--            }"-->
+<!--            placeholder="选择时间">-->
+<!--          </el-time-select>-->
+          <el-date-picker
             v-model="search.dataTime"
-            :picker-options="{
-              start: '08:30',
-              step: '00:15',
-              end: '18:30'
-            }"
-            placeholder="选择时间">
-          </el-time-select>
+            type="date"
+            placeholder="选择查询日期"
+            value-format="yyyy-MM-dd">
+          </el-date-picker>
        </div>
         <div class="searchBtn" @click="change()">
           查询
         </div>
         <div class="addVideo">
-          新增视频
+          轨迹追踪
         </div>
      </div>
       <div class="baiduMap" id="container"></div>
@@ -36,6 +42,8 @@
 
 <script>
 import routerHead from '@/components/routerHead.vue'
+import axios from "axios";
+
 export default {
   name: 'problemTracking',
   components:{
@@ -45,12 +53,32 @@ export default {
     return{
       search:{
         name:'',
-        dataTime:''
+        dataTime:'2023-04-23'
       },
       pos:[
         {
-          x:'',
-          y:'',
+          locx:'115.520094',
+          locy:'38.891623',
+          cname:'南门',
+          name:'李成浩',
+          des:'员工到岗',
+          time:''
+        },
+        {
+          locx:'115.520056',
+          locy:'38.892036',
+          cname:'教九A',
+          name:'李成浩',
+          des:'无异常行为',
+          time:''
+        },
+        {
+          locx:'115.520496',
+          locy:'38.892018',
+          cname:'教十A',
+          name:'李成浩',
+          des:'边界入侵！员工无访问权限',
+          time:''
         },
       ],
       map:'',
@@ -63,7 +91,7 @@ export default {
     init(){
       this.map = new window.BMapGL.Map("container");
       let point = new window.BMapGL.Point(115.519514, 38.893462);
-      this.map.centerAndZoom(point, 15);
+      this.map.centerAndZoom(point, 18);
       this.map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
       // this.map.setHeading(64.5);   //设置地图旋转角度
       // this.map.setTilt(73);       //设置地图的倾斜角度
@@ -72,18 +100,56 @@ export default {
       // });
     },
 
-    change(){
+    async search_path(){
+      await axios({
+        method: 'post',
+        url: 'getPath',
+        data: {
+          id: this.search.name,
+          time: this.search.dataTime
+        }
+      }).then((rep)=>{
+        if(rep.data.success){
+          this.pos = rep.data.msg;
+          return;
+        }
+        alert("无查询结果！")
+      })
+    },
+
+     async change(){
+      await this.search_path();
+      let _this = this;
       this.map.clearOverlays();
-      let polyline = new BMapGL.Polyline([
-        new BMapGL.Point(116.399, 39.910),
-        new BMapGL.Point(116.405, 39.920),
-        new BMapGL.Point(116.425, 39.900)
-      ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});
+
+      let pointArray = [];
+      for(let i = 0; i < this.pos.length; i++){
+        pointArray.push(new BMapGL.Point(this.pos[i].locx, this.pos[i].locy))
+      }
+
+      let polyline = new BMapGL.Polyline(pointArray, {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});
       this.map.addOverlay(polyline);
 
-      var point = new BMapGL.Point(115.519514, 38.893462);
-      var marker = new BMapGL.Marker(point);        // 创建标注
-      this.map.addOverlay(marker);
+      for(let i = 0; i < pointArray.length; i++){
+        let marker = new BMapGL.Marker(pointArray[i])
+        this.map.addOverlay(marker);
+        let opts = {
+          width : 250,     // 信息窗口宽度
+          height: 250,     // 信息窗口高度
+          title : this.pos[i].cname , // 信息窗口标题
+        }
+        let message = '<div class="little_title"></div>' +
+          '<div class="infoScroll" style="height:230px;overflow-y:scroll;font-size:0.2rem;margin-top:1vh;"><table>'+
+          '<tr><td style="color:grey">'+'员工：'+ '</td><td><span>'+this.pos[i].name+'</span></td></tr>'+
+          '<tr><td style="color:grey">'+'位置：'+ '</td><td><span>'+this.pos[i].cname+'</span></td></tr>'+
+          '<tr><td style="color:grey">'+'坐标：'+ '</td><td><span>'+this.pos[i].locx+','+this.pos[i].locy+'</span></td></tr>'+
+          '<tr><td style="color:grey">'+'识别信息：'+ '</td><td><span>'+this.pos[i].des+'</span></td></tr>'+
+          '<tr><td style="color:grey">'+'时间：'+ '</td><td><span>'+this.pos[i].time+'</span></td></tr>';
+        let infoWindow = new BMapGL.InfoWindow(message, opts);  // 创建信息窗口对象
+        marker.addEventListener("click", function(){
+          _this.map.openInfoWindow(infoWindow, pointArray[i]);
+        });
+      }
     },
   }
 }

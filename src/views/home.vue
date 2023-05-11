@@ -166,21 +166,21 @@
           </div>
            <div class="tablesContent">
               <div>2019-01-24</div>
-              <div class="trackingContent">汽水分离装置、给水装置、 蒸汽清洗装置脱落、开焊</div>
+              <div class="trackingContent">员工：19741358 边界入侵：进入未授权区域</div>
               <div class="btn_cl">
                 处理
               </div>
           </div>
            <div class="tablesContent">
               <div>2019-01-24</div>
-              <div class="trackingContent">汽水分离装置、给水装置、 蒸汽清洗装置脱落、开焊</div>
+              <div class="trackingContent">员工：19741358 工作期间离岗</div>
               <div class="btn_cl">
                 处理
               </div>
           </div>
            <div class="tablesContent">
               <div>2019-01-24</div>
-              <div class="trackingContent">汽水分离装置、给水装置、 蒸汽清洗装置脱落、开焊</div>
+              <div class="trackingContent">员工：19741358 工作期间离岗</div>
               <div class="btn_cl">
                 处理
               </div>
@@ -191,7 +191,6 @@
     </div>
     <div class="cnenterTroduce">
       <div class="cnenterVideo">
-<!--        <my-video></my-video>-->
         <video id="video" class="video" controls autoplay style=""  ></video>
       </div>
       <div class="cnenterOperation">
@@ -225,8 +224,8 @@ export default {
       user: "",
       chatUser: 'lizi',
       text: "测试测试测试测试",
-      url:"webrtc://101.42.0.24/live/address", //直播视频流地址
-      url_left:"rtmp://101.42.0.24/live/videoName",
+      url:"webrtc://101.42.8.217/live/livestream", //直播视频流地址
+      url_left:"webrtc://101.42.8.217/live/videoName",
       messages: [
         {
           "category": "描述1",
@@ -268,7 +267,7 @@ export default {
       } else {
         console.log("您的浏览器支持WebSocket");
 
-        let socketUrl = "ws://192.168.31.240:8081/server/" + this.user.userName;
+        let socketUrl = "ws://192.168.0.175:8081/server/" + this.user.userName;
         if (socket != null) {
           socket.close();
           socket = null;

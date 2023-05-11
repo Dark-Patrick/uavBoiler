@@ -84,7 +84,7 @@ router.beforeEach((to, from, next)=>{
     else {
       //校验token合法性
       axios({
-        url:"http://192.168.31.240:8081/checkToken",
+        url:"checkToken",
         method:"get",
         headers:{
           token:admin.token
@@ -92,8 +92,7 @@ router.beforeEach((to, from, next)=>{
       }).then((response)=>{
         if(!response.data){
           console.log("校验失败");
-          next({path:"/error"});
-
+          next({path:"/login"});
         }
       })
       next();

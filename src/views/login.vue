@@ -60,7 +60,7 @@ export default {
       let _this = this;
       axios({
         method: 'post',
-        url: 'http://192.168.31.240:8081/login',
+        url: 'login',
         data: {
           userName: this.form.userName,
           password: this.form.password,
@@ -74,7 +74,6 @@ export default {
         }
          alert(response.data.userName);
       })
-      // _this.$router.push({ path: "/home" });
     }
   },
 
